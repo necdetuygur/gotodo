@@ -5,11 +5,11 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/yigitnuhuz/gotodo/config"
-	"github.com/yigitnuhuz/gotodo/services"
+	"gotodo/config"
+	"gotodo/services"
 )
 
-func init() {
+func main() {
 	// Echo instance
 	e := echo.New()
 
@@ -36,8 +36,4 @@ func init() {
 
 	// Start server
 	e.Logger.Fatal(e.Start(":3200"))
-}
-
-func main() {
-
 }

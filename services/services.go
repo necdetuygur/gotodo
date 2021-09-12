@@ -1,12 +1,13 @@
 package services
 
 import (
+	"context"
 	"database/sql"
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/yigitnuhuz/gotodo/config"
+	"gotodo/config"
 )
 
 type Todo struct {
@@ -38,6 +39,8 @@ func AllTodos(c echo.Context) error {
 }
 
 func CreateTodo(c echo.Context) error {
+	ctx := context.Background()
+
 	db, _ := config.GetDb()
 	defer db.Close()
 
@@ -47,8 +50,8 @@ func CreateTodo(c echo.Context) error {
 		return err
 	}
 
-	statement, _ := db.Prepare("INSERT INTO Todos (Detail, Completed) VALUES (?, ?)")
-	statement.Exec(u.Detail, u.Completed)
+	statement, _ := db.Prepare("INSERT INTO Todos (Detail, Completed) VALUES (@Detail, @Completed)")
+	statement.QueryRowContext(ctx, sql.Named("Detail", u.Detail), sql.Named("Completed", u.Completed))
 	defer statement.Close()
 
 	return c.JSON(http.StatusCreated, u)

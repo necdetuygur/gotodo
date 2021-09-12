@@ -6,7 +6,7 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
-	"github.com/yigitnuhuz/gotodo/config"
+	"gotodo/config"
 )
 
 type AuthRequest struct {
