@@ -58,6 +58,8 @@ func CreateTodo(c echo.Context) error {
 }
 
 func GetTodo(c echo.Context) error {
+	ctx := context.Background()
+
 	db, _ := config.GetDb()
 	defer db.Close()
 
@@ -65,8 +67,8 @@ func GetTodo(c echo.Context) error {
 
 	var todo Todo
 
-	statement, _ := db.Prepare("SELECT Id, Detail, Completed FROM Todos WHERE Id = ?")
-	err := statement.QueryRow(id).Scan(&todo.Id, &todo.Detail, &todo.Completed)
+	statement, _ := db.Prepare("SELECT Id, Detail, Completed FROM Todos WHERE Id = @Id")
+	err := statement.QueryRowContext(ctx, sql.Named("Id", id)).Scan(&todo.Id, &todo.Detail, &todo.Completed)
 	defer statement.Close()
 
 	if err == sql.ErrNoRows {
@@ -79,6 +81,8 @@ func GetTodo(c echo.Context) error {
 }
 
 func UpdeteTodoIsComplete(c echo.Context) error {
+	ctx := context.Background()
+
 	db, _ := config.GetDb()
 	defer db.Close()
 
@@ -88,8 +92,8 @@ func UpdeteTodoIsComplete(c echo.Context) error {
 		panic(err.Error())
 	}
 
-	statement, _ := db.Prepare("UPDATE Todos SET Completed = 1 Where Id = ?")
-	_, err = statement.Exec(id)
+	statement, _ := db.Prepare("UPDATE Todos SET Completed = 1 Where Id = @Id")
+	_, err = statement.QueryContext(ctx, sql.Named("Id", id))
 	defer statement.Close()
 
 	if err != nil {
@@ -100,6 +104,8 @@ func UpdeteTodoIsComplete(c echo.Context) error {
 }
 
 func UpdeteTodoIsUncomplete(c echo.Context) error {
+	ctx := context.Background()
+
 	db, _ := config.GetDb()
 	defer db.Close()
 
@@ -109,8 +115,8 @@ func UpdeteTodoIsUncomplete(c echo.Context) error {
 		panic(err.Error())
 	}
 
-	statement, _ := db.Prepare("UPDATE Todos SET Completed = 0 Where Id = ?")
-	_, err = statement.Exec(id)
+	statement, _ := db.Prepare("UPDATE Todos SET Completed = 0 Where Id = @Id")
+	_, err = statement.QueryContext(ctx, sql.Named("Id", id))
 	defer statement.Close()
 
 	if err != nil {
@@ -121,6 +127,8 @@ func UpdeteTodoIsUncomplete(c echo.Context) error {
 }
 
 func DeleteTodo(c echo.Context) error {
+	ctx := context.Background()
+
 	db, _ := config.GetDb()
 	defer db.Close()
 
@@ -130,8 +138,8 @@ func DeleteTodo(c echo.Context) error {
 		panic(err.Error())
 	}
 
-	statement, _ := db.Prepare("DELETE FROM Todos Where Id = ?")
-	statement.Exec(id)
+	statement, _ := db.Prepare("DELETE FROM Todos Where Id = @Id")
+	_, err = statement.QueryContext(ctx, sql.Named("Id", id))
 	defer statement.Close()
 
 	if err != nil {
