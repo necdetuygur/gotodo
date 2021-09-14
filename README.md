@@ -19,7 +19,14 @@ Don't forget check new commits if pull or fork to your machine.
 ```
 go get -u github.com/yigitnuhuz/gotodo
 ```
-
+or
+```
+go get -u github.com/denisenkom/go-mssqldb
+go get -u github.com/dgrijalva/jwt-go
+go get -u github.com/labstack/echo
+go get -u github.com/labstack/echo/middleware
+go get -u github.com/mattn/go-sqlite3
+```
 
 #### 📦 Packages
 
