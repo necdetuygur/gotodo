@@ -3,6 +3,7 @@ package main
 import (
 	"gotodo/config"
 	"gotodo/services"
+	"os"
 
 	_ "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
@@ -37,5 +38,9 @@ func main() {
 	r.DELETE("/todos/:id", services.DeleteTodo)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":3200"))
+	port := "3200"
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
+	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
 }
