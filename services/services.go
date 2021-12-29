@@ -8,7 +8,7 @@ import (
 
 	"gotodo/config"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type Todo struct {

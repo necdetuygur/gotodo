@@ -1,17 +1,19 @@
 package main
 
 import (
-	_ "github.com/dgrijalva/jwt-go"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
-	_ "github.com/mattn/go-sqlite3"
 	"gotodo/config"
 	"gotodo/services"
+
+	_ "github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
 	// Echo instance
 	e := echo.New()
+	e.HideBanner = true
 
 	// Middleware
 	e.Use(middleware.Logger())

@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
-	"github.com/labstack/echo"
 	"gotodo/config"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/v4"
 )
 
 type AuthRequest struct {
