@@ -19,6 +19,10 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
 	// Endpoints
 	e.GET("/", services.Hello)
@@ -38,9 +42,11 @@ func main() {
 	r.DELETE("/todos/:id", services.DeleteTodo)
 
 	// Start server
+	host := "localhost"
 	port := "3200"
 	if os.Getenv("PORT") != "" {
+		host = "0.0.0.0"
 		port = os.Getenv("PORT")
 	}
-	e.Logger.Fatal(e.Start("0.0.0.0:" + port))
+	e.Logger.Fatal(e.Start(host + ":" + port))
 }
